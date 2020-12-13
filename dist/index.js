@@ -5,7 +5,9 @@ var react = require('react');
 /**
  * `useState` that updates based on changes to provided value. If `value`
  * changes, the `state` value returned by `useUpdatableState` will reflect the
- * new value.
+ * new value. A third array element, `changed`, will be set to `true` for the
+ * render cycle that caused the change, as a snapshot indicator that a change
+ * took place. Future render cycles will not retain this `true` value.
  * @param value The external value that initially populates `state` and from
  *        where `state` receives updates.
  * @param predicate An optional function (`(value, previous): boolean`) to
@@ -25,16 +27,18 @@ function useUpdatableState(value, predicate) {
     // guarantees about the array's identity.
     var stateArray = react.useState(value);
     var _a = react.useState(value), previousValue = _a[0], setPreviousValue = _a[1];
-    var changedRef = react.useRef(true);
+    var _b = react.useState(true), isChanged = _b[0], setChanged = _b[1];
     if (!predicate(value, previousValue)) {
-        changedRef.current = true;
+        setChanged(true);
         stateArray[1](value);
         setPreviousValue(value);
     }
-    stateArray[2] = changedRef.current;
-    react.useLayoutEffect(function () {
-        changedRef.current = false;
-    });
+    else {
+        if (isChanged) {
+            setChanged(false);
+        }
+    }
+    stateArray[2] = isChanged;
     return stateArray;
 }
 var defaultComparator = function (a, b) { return a === b; };
