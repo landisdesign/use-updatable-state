@@ -1,15 +1,15 @@
 {
   "name": "@landisdesign/use-updatable-state",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A React Hook that updates when it receives a new external value",
   "keywords": [
     "react",
     "usestate",
     "react hooks"
   ],
-  "homepage": "https://github.com/landisdesign/useUpdatableState#readme",
-  "repository": "github:landisdesign/useUpdatableState",
-  "bugs": "https://github.com/landisdesign/useUpdatableState/issues",
+  "homepage": "https://github.com/landisdesign/use-updatable-state#readme",
+  "repository": "github:landisdesign/use-updatable-state",
+  "bugs": "https://github.com/landisdesign/use-updatable-state/issues",
   "license": "MIT",
   "author": "Michael Landis",
   "files": [
@@ -33,7 +33,7 @@
     ]
   },
   "peerDependencies": {
-    "react": "^16.8"
+    "react": ">=16.8"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
