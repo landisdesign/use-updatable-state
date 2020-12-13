@@ -2,7 +2,9 @@
 
 If you have state you want to change in a component, that you also want
 updated when incoming properties change, `useUpdatableState` lets you change
-your state until new properties come into the component.
+your state internally until new properties come into the component. At that
+point, state is updated by the external value, and you can choose to be notified
+when that happens.
 
 ## Installation
 
@@ -15,7 +17,10 @@ yarn add use-updatable-state
 ```
 
 ## Usage
-```js
+By default, you would use it just like `useState()`, passing a value to it and
+receiving a tuple:
+
+```jsx
 import React from 'react';
 import useUpdatableState from 'use-updatable-state';
 
@@ -39,3 +44,17 @@ function Component({ value, onChange }) {
   )
 }
 ```
+
+By default, `useUpdatableState()` will do a strict equality comparison (`===`) to
+determine if the value changed or not. If you need finer grain control, you can
+pass a predicate as a second argument:
+
+```js
+const predicate = (a, b) => a.name === b.name;
+const [complexValue, setComplexValue, valueChanged] = useUpdatableState(value, predicate);
+```
+
+The above snippet would only overwrite `complexValue` if `value.name` changed.
+Note this means that, even if other properties in `value` changed, as long as
+`value.name` didn't change, `complexValue` won't be updated to reflect those
+changes. Use this feature cautiously.
