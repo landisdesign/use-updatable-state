@@ -26,12 +26,14 @@ function useUpdatableState(value, predicate) {
     // of spreading its contents into a new array, in case React makes any
     // guarantees about the array's identity.
     var stateArray = react.useState(value);
-    var _a = react.useState(value), previousValue = _a[0], setPreviousValue = _a[1];
-    var _b = react.useState(true), isChanged = _b[0], setChanged = _b[1];
-    if (!predicate(value, previousValue)) {
+    var previousValueRef = react.useRef(value);
+    var _a = react.useState(true), isChanged = _a[0], setChanged = _a[1];
+    react.useEffect(function () {
+        previousValueRef.current = value;
+    });
+    if (!predicate(value, previousValueRef.current) && !predicate(value, stateArray[0])) {
         setChanged(true);
         stateArray[1](value);
-        setPreviousValue(value);
     }
     else {
         if (isChanged) {

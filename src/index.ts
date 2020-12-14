@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 
 /**
  * `useState` that updates based on changes to provided value. If `value`
@@ -23,13 +23,16 @@ function useUpdatableState<T>(value: T, predicate: StateComparator<T> = defaultC
   // of spreading its contents into a new array, in case React makes any
   // guarantees about the array's identity.
   const stateArray: UpdatableResult<T> = useState(value) as any;
-  const [previousValue, setPreviousValue] = useState(value);
+  const previousValueRef = useRef(value);
   const [isChanged, setChanged] = useState(true);
 
-  if (!predicate(value, previousValue)) {
+  useEffect(() => {
+    previousValueRef.current = value;
+  });
+
+  if (!predicate(value, previousValueRef.current) && !predicate(value, stateArray[0])) {
     setChanged(true);
     stateArray[1](value);
-    setPreviousValue(value);
   } else {
     if (isChanged) {
       setChanged(false);

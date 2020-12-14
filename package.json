@@ -1,6 +1,6 @@
 {
   "name": "@landisdesign/use-updatable-state",
-  "version": "1.0.3",
+  "version": "1.1.1",
   "description": "A React Hook that updates when it receives a new external value",
   "keywords": [
     "react",
