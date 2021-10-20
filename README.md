@@ -9,11 +9,11 @@ when that happens.
 ## Installation
 
 ```
-npm i use-updatable-state
+npm i @landisdesign/use-updatable-state
 ```
 or
 ```
-yarn add use-updatable-state
+yarn add @landisdesign/use-updatable-state
 ```
 
 ## Usage
